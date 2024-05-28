@@ -36,7 +36,7 @@ class TicketController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        return response($ticket);
+        return redirect('/tickets');
     }
 
     /**
@@ -44,7 +44,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return view('ticket.store');
     }
 
     /**
