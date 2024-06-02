@@ -1,13 +1,13 @@
 <x-app-layout>
     <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
-        <div class="flex justify-between w-full sm:max-w-xl mt-6">
+        <div class="flex justify-between w-full sm:max-w-2xl mt-6">
             <h1 class=" text-white text-lg font-bold">Ticket Details</h1>
             <a class="mx-3 pb-3" href="{{route('ticket.index', $ticket->id)}}">
                 <x-primary-button>Back Home</x-primary-button>
             </a>
         </div>
         <div
-            class="w-full sm:max-w-xl mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
+            class="w-full sm:max-w-2xl mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
             <div class="table-responsive text-center">
                 <h1 class="text-white text-lg font-bold">{{$ticket->title}}</h1>
                 <table class="text-white table-auto w-full mt-3">
