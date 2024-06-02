@@ -20,7 +20,7 @@ class TicketController extends Controller
     {
         $user = auth()->user();
         // dd($user = auth()->user()->isAdmin);
-        $tickets = $user->isAdmin ? Ticket::all() : Ticket::where('user_id', auth()->id())->oldest()->get();
+        $tickets = $user->isAdmin ? Ticket::all() : $user->tickets;
 
         return view('ticket.index', compact('tickets'));
     }
