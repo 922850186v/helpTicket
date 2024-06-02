@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-
-enum TicketStatus {
-    const OPEN = 'open';
-    const RESOLVED = 'resolved';
-    const REJECTED = 'rejected';
+enum TicketStatus : string
+{
+    case OPEN = 'Open';
+    case APPROVED = 'Approved';
+    case REJECTED = 'Rejected';
 }
