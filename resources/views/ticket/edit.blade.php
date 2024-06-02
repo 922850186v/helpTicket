@@ -1,7 +1,14 @@
 <x-app-layout>
     <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
-        <h1 class="text-white text-lg font-bold m-6">Update Support Ticket</h1>
-        <div class="w-full sm:max-w-md mt-6 px-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+        <div class="flex justify-between w-full sm:max-w-xl mt-6">
+            <h1 class="text-white text-lg font-bold ">Update Support Ticket</h1>
+            <a class="" href="{{route('ticket.show', $ticket->id)}}">
+                <x-primary-button class="my-3">
+                    Back
+                </x-primary-button>
+            </a>
+        </div>
+        <div class="w-full sm:max-w-xl mt-6 px-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
             <form action="{{route('ticket.update', $ticket->id)}}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')

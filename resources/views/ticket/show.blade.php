@@ -1,22 +1,39 @@
 <x-app-layout>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div class="flex sm:justify-between">
-            <h1 class="text-white text-lg font-bold">{{$ticket->title}}</h1>
-
+    <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
+        <div class="flex justify-between w-full sm:max-w-xl mt-6">
+            <h1 class=" text-white text-lg font-bold">Ticket Details</h1>
+            <a class="mx-3 pb-3" href="{{route('ticket.index', $ticket->id)}}">
+                <x-primary-button>Back Home</x-primary-button>
+            </a>
         </div>
         <div
             class="w-full sm:max-w-xl mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
-            <div class="text-white flex justify-between py-4">
-                <p class="pt-1">{{$ticket->description}}</p>
-                <p class="pt-1">{{$ticket->created_at->format('m-d-Y')}}</p>
-                @if( $ticket->attachment)
-                <a class="pt-1" href="{{'/storage/' . $ticket->attachment}}">Attachment</a>
-                @endif
-            </div>
-            <div class="flex justify-between">
-                <p class="text-white justify-end py-2">Status: {{$ticket->status}}</p>
-                @if ($ticket->status === 'Open')
-                <div class="flex m-4">
+            <div class="table-responsive text-center">
+                <h1 class="text-white text-lg font-bold">{{$ticket->title}}</h1>
+                <table class="text-white table-auto w-full mt-3">
+                    <thead>
+                        <th>Id</th>
+                        <th>Description</th>
+                        @if( $ticket->attachment)
+                        <th>Attachment</th>
+                        @endif
+                        <th>Created On</th>
+                        <th>Status</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{$ticket->id}}</td>
+                            <td>{{$ticket->description}}</td>
+                            @if( $ticket->attachment)
+                            <td><a class="pt-1" href="{{"/storage/" . $ticket->attachment}}">Attachment</a></td>
+                            @endif
+                            <td>{{$ticket->created_at->format('m-d-Y')}}</td>
+                            <td>{{$ticket->status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="flex mt-6 justify-center">
+                    @if ($ticket->status === 'Open')
                     <a href="{{route('ticket.edit', $ticket->id)}}">
                         <x-primary-button>Edit</x-primary-button>
                     </a>
@@ -26,13 +43,9 @@
                         <x-primary-button>Delete</x-primary-button>
                     </form>
                     @else
-                    <a class="ml-3 pb-3" href="{{route('ticket.index', $ticket->id)}}">
-                        <x-primary-button>Back Home</x-primary-button>
-                    </a>
+                    <p class="text-white">Ticket is Closed.</p>
                     @endif
-                </div>
-                @if (auth()->user()->isAdmin && $ticket->status === 'Open')
-                <div class="flex m-2">
+                    @if (auth()->user()->isAdmin && $ticket->status === 'Open')
                     <form class="ml-3 pb-3" action="{{route('ticket.update', $ticket->id)}}" method="post">
                         @csrf
                         @method('patch')
@@ -45,8 +58,8 @@
                         <input type="hidden" name="status" value="Rejected">
                         <x-primary-button class="ml-3">Reject</x-primary-button>
                     </form>
+                    @endif
                 </div>
-                @endif
             </div>
         </div>
     </div>

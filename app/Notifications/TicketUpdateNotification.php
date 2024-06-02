@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -37,7 +38,7 @@ class TicketUpdateNotification extends Notification
     {
         return (new MailMessage)
                     ->greeting("Hello {$notifiable->name}")
-                    ->line('The Ticket is Updated.')
+                    ->line("Your Ticket on {$this->ticket->title} has an Update. Check the status.")
                     ->action('Check Ticket',route('ticket.show', $this->ticket->id))
                     ->line('Thank you for using our application!');
     }

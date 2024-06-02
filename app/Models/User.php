@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     protected function isAdmin(): Attribute
     {
-        $admins = ["vishva@admin.com"];
+        $admins = ["vishva@admin.com","vishvaisuranga@gmail.com"];
         
         return Attribute::make(
             get: fn()=>in_array($this->email, $admins)) ;

@@ -1,18 +1,17 @@
 <x-app-layout>
-    <div
-        class="min-h-screen flex flex-col w-full sm:justify-center sm:ml-auto items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div class="flex justify-between w-full sm:max-w-lg">
+    <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
+        <div class="flex justify-between w-full sm:max-w-xl mt-6">
             @if (auth()->user()->isAdmin)
             <h1 class="text-white text-lg font-bold">Review Support Tickets</h1>
             @else
             <h1 class="text-white text-lg font-bold">Your Support Tickets</h1>
             @endif
-            <div>
-                <a href="{{ route('ticket.create') }}" class="bg-white rounded-lg p-2">Create New</a>
-            </div>
+            <a class="mx-3 pb-3" href="{{route('ticket.create')}}">
+                <x-primary-button>Create</x-primary-button>
+            </a>
         </div>
         <div
-            class="text-white text-center sm:justify-center items-center sm:min-w-xl mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            class="text-white text-center w-full sm:max-w-2xl mt-6 p-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
             <div class="table-responsive">
                 @if (count($tickets))
                 <table class="table-auto w-full">
