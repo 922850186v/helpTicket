@@ -72,17 +72,25 @@ class TicketController extends Controller
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        // dd(array_merge(['status_changed_by_id'=>auth()->user()->name,$request->except('attachment')]));
-        $ticket->update(array_merge($request->except('attachment'), ['status_changed_by_id' => auth()->user()->id]));
+        // dd($request);
+        $ticket->update($request->except('attachment'));
+        
         if ($request->has('status')) {
+            $ticket->update(['status_changed_by_id' => auth()->user()->id]);
            $ticket->user->notify(new TicketUpdateNotification($ticket));
         }
         if ($request->file('attachment')) {
             Storage::disk('public')->delete($ticket->attachment);
             $this->storeAttachment($request, $ticket);
         }
+        if($request->has('userMessage')){
+            $ticket->update(['user_message'=>$request->input('userMessage')]);
+        }
+        if($request->has('adminMessage')){
+            $ticket->update(['admin_message'=>$request->input('adminMessage')]);
+        }
 
-        return redirect(route('ticket.index'));
+        return redirect(route('ticket.show',$ticket->id));
     }
 
     /**
