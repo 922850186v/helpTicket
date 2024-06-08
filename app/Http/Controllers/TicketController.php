@@ -83,12 +83,7 @@ class TicketController extends Controller
             Storage::disk('public')->delete($ticket->attachment);
             $this->storeAttachment($request, $ticket);
         }
-        if($request->has('userMessage')){
-            $ticket->update(['user_message'=>$request->input('userMessage')]);
-        }
-        if($request->has('adminMessage')){
-            $ticket->update(['admin_message'=>$request->input('adminMessage')]);
-        }
+        $request->has('userMessage') ? $ticket->update(['user_message'=>$request->input('userMessage')]) : $ticket->update(['admin_message'=>$request->input('adminMessage')]);
 
         return redirect(route('ticket.show',$ticket->id));
     }
@@ -106,7 +101,7 @@ class TicketController extends Controller
     {
         $ext = $request->file('attachment')->extension();
         $contents = file_get_contents($request->file('attachment'));
-        $filename = Str::random(25);
+        $filename = Str::random(15);
         $path = "attachments/$filename.$ext";
 
         Storage::disk('public')->put($path, $contents);

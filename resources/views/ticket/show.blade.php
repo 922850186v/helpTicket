@@ -25,7 +25,7 @@
                             <td>{{$ticket->id}}</td>
                             <td>{{$ticket->description}}</td>
                             @if( $ticket->attachment)
-                            <td><a class="pt-1" href="{{"/storage/" . $ticket->attachment}}">Attachment</a></td>
+                            <td><a class="pt-1" href="{{"/storage/" . $ticket->attachment}}">Document</a></td>
                             @endif
                             <td>{{$ticket->created_at->format('m-d-Y')}}</td>
                             <td>{{$ticket->status}}</td>
@@ -67,12 +67,15 @@
             @if ($ticket->user_message)
             <p class="text-white">{{$ticket->user->name}}: <i>{{$ticket->user_message}}</i></p>
             @endif
+            @if ($ticket->admin_message)
+            <p class="text-white">Admin: <i>{{$ticket->admin_message}}</i></p>
+            @endif
             <form class="mt-6" action="{{route('ticket.update', $ticket->id)}}" method="post">
                 @csrf
                 @method('patch')
-                <h1 class=" text-white text-lg font-bold">Send Message to User</h1>
+                <p class=" text-white text-lg font-bold">Send Message to User</p>
                 <div class="mt-4 ">
-                    <x-input-label for="title" :value="__('adminMessage')" />
+                    <x-input-label for="adminMessage" />
                     <x-textarea placeholder="Type your message" id="adminMessage" name="adminMessage" value="" />
                     <x-input-error :messages="$errors->get('adminMessage')" class="mt-2" />
                 </div>
@@ -82,7 +85,6 @@
                     </x-primary-button>
                 </div>
             </form>
-
         </div>
         @else
         <div class="w-full sm:max-w-2xl mt-6">
@@ -95,9 +97,9 @@
             <form class="mt-6" action="{{route('ticket.update', $ticket->id)}}" method="post">
                 @csrf
                 @method('patch')
-                <h1 class=" text-white text-lg font-bold">Send Message to Admin</h1>
+                <p class=" text-white text-lg font-bold">Send Message to Admin</p>
                 <div class="mt-4 ">
-                    <x-input-label for="title" :value="__('userMessage')" />
+                    <x-input-label for="userMessage" />
                     <x-textarea placeholder="Type your message" id="userMessage" name="userMessage" value="" />
                     <x-input-error :messages="$errors->get('userMessage')" class="mt-2" />
                 </div>
