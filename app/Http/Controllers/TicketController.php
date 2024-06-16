@@ -6,8 +6,10 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\Models\Message;
 use App\Notifications\TicketUpdateNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -16,7 +18,7 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user, Ticket $ticket)
     {
         $user = auth()->user();
         // dd($user = auth()->user()->isAdmin);
@@ -50,13 +52,29 @@ class TicketController extends Controller
 
         return response()->redirectTo(route('ticket.index', $ticket->id));
     }
-
     /**
      * Display the specified resource.
      */
-    public function show(Ticket $ticket)
+    public function show(Ticket $ticket, Message $message)
     {
-        return view('ticket.show', compact('ticket'));
+        $user = auth()->user();
+
+        $getAllMessagesinTicket = DB::table('users')
+        ->join('messages', 'messages.user_id', '=', 'users.id')
+        ->select('users.name','users.email', 'messages.message', 'messages.updated_at')
+        ->where('ticket_id', $ticket->id)
+        ->orderBy('messages.updated_at','asc')
+        ->get();
+
+
+        // $ticketUserMessages = Message::where('ticket_id', $ticket->id)->where('user_id', $ticket->user->id)->get();
+        // $messageUserId = Message::where('user_id', $user->id)->where('ticket_id', $ticket->id)->pluck('user_id');
+        // $userEmail = User::whereIn('id', $messageUserId)->pluck('email');
+        // $adminId = User::whereIn('email', $user->admins)->pluck('id');
+        // $adminMessage = Message::where('user_id', $adminId[0])->where('ticket_id', $ticket->id)->get();
+        
+        
+        return view('ticket.show', compact('ticket','getAllMessagesinTicket'));
     }
 
     /**
@@ -83,7 +101,6 @@ class TicketController extends Controller
             Storage::disk('public')->delete($ticket->attachment);
             $this->storeAttachment($request, $ticket);
         }
-        $request->has('userMessage') ? $ticket->update(['user_message'=>$request->input('userMessage')]) : $ticket->update(['admin_message'=>$request->input('adminMessage')]);
 
         return redirect(route('ticket.show',$ticket->id));
     }
@@ -107,4 +124,20 @@ class TicketController extends Controller
         Storage::disk('public')->put($path, $contents);
         $ticket->update(['attachment' => $path]);
     }
+
+        /**
+     * Show messages related to a specific ticket.
+     */
+    // public function showMessages($ticketId)
+    // {
+    //     // Retrieve the authenticated user
+    //     $user = auth()->user();
+
+    //     // Retrieve messages related to the specified ticket ID for the authenticated user
+    //     $messages = $user->messages->whereHas('ticket', function ($query) use ($ticketId) {
+    //         $query->where('id', $ticketId);
+    //     })->get();
+
+    //     return view('ticket.messages', compact('messages'));
+    // }
 }

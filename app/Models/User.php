@@ -55,11 +55,10 @@ class User extends Authenticatable
     //     get: fn($value)=>Str::upper($value)
     //     );
     // }
-
+    
     protected function isAdmin(): Attribute
-    {
+    {        
         $admins = ["vishva@admin.com","vishvaisuranga@gmail.com"];
-        
         return Attribute::make(
             get: fn()=>in_array($this->email, $admins)) ;
     }
@@ -69,4 +68,8 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class);
     }
     
+    public function messages() : HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
 }

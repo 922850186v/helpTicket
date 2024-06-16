@@ -62,30 +62,11 @@
                 </div>
             </div>
         </div>
+        @if (auth()->user()->isAdmin)
         <div class="w-full sm:max-w-2xl mt-6">
-            @if ($getAllMessagesinTicket->count()>0)
-            <div
-                class="text-white w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
-                <table class="columns-3">
-                    @foreach ($getAllMessagesinTicket as $message)
-                    <tr class="m-auto">
-                        <td class="float-right px-4">{{$message->name}} :</td>
-                        <td class="pl-1"><b>{{$message->message}}</b></td>
-                        <td class="px-6">{{$message->updated_at}}</td>
-                    </tr>
-                    @endforeach
-                </table>
-            </div>
-            @else
-            <div
-                class="text-white w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center flex-col">
-                <p>No Messages.</p>
-            </div>
-            @endif
-            <!-- <p class="text-white float-right">You : <i>{{auth()->user()->message}}</i></p> -->
+            <p class="text-white">{{$message->message}}:
+            <p class="text-white">Admin: <i>{{$ticket->message}}</i></p>
 
-            @if ($ticket->status === 'Open')
-            @if (auth()->user()->isAdmin)
             <form class="mt-6" action="{{route('message.store', $ticket->id)}}" method="post">
                 @csrf
                 @method('post')
@@ -105,6 +86,12 @@
         </div>
         @else
         <div class="w-full sm:max-w-2xl mt-6">
+            @if ($ticket->user_message)
+            <p class="text-white">You: <i>{{$ticket->user_message}}</i></p>
+            @endif
+            @if ($ticket->admin_message)
+            <p class="text-white">Admin: <i>{{$ticket->admin_message}}</i></p>
+            @endif
             <form class="mt-6" action="{{route('message.store', $ticket->id)}}" method="post">
                 @csrf
                 @method('post')
@@ -113,7 +100,6 @@
                     <x-input-label for="message" />
                     <x-textarea placeholder="Type your message" id="message" name="message" value="" />
                     <x-input-error :messages="$errors->get('message')" class="mt-2" />
-                    <input type="hidden" name="ticket_id" value={{$ticket->id}}>
                 </div>
                 <div class="flex mt-2 mb-6">
                     <x-primary-button class="">
@@ -122,7 +108,6 @@
                 </div>
             </form>
         </div>
-        @endif
         @endif
     </div>
 </x-app-layout>
