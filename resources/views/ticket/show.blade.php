@@ -105,7 +105,7 @@
                     </x-primary-button>
                 </div>
             </form>
+            @endif
         </div>
-        @endif
     </div>
 </x-app-layout>
