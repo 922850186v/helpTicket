@@ -64,51 +64,35 @@
         </div>
         <div class="w-full sm:max-w-2xl mt-6">
             @if ($getAllMessagesinTicket->count()>0)
+            <h1 class="text-white text-lg font-bold">Messages</h1>
             <div
                 class="text-white w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
-                <table class="columns-3">
+                <table class="w-full">
                     @foreach ($getAllMessagesinTicket as $message)
-                    <tr class="m-auto">
-                        <td class="float-right px-4">{{$message->name}} :</td>
-                        <td class="pl-1"><b>{{$message->message}}</b></td>
-                        <td class="px-6">{{$message->updated_at}}</td>
+                    <tr class="">
+                        <td class="">{{Str::before($message->name,' ')}} :</td>
+                        <td class=""><b>{{$message->message}}</b></td>
+                        <td class="text-sm">{{$message->updated_at}}</td>
                     </tr>
                     @endforeach
                 </table>
             </div>
-            @else
+            @elseif($ticket->status !== 'Open')
             <div
                 class="text-white w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center flex-col">
                 <p>No Messages.</p>
             </div>
             @endif
-            <!-- <p class="text-white float-right">You : <i>{{auth()->user()->message}}</i></p> -->
 
             @if ($ticket->status === 'Open')
-            @if (auth()->user()->isAdmin)
             <form class="mt-6" action="{{route('message.store', $ticket->id)}}" method="post">
                 @csrf
                 @method('post')
+                @if (auth()->user()->isAdmin)
                 <p class=" text-white text-lg font-bold">Send Message to User</p>
-                <div class="mt-4 ">
-                    <x-input-label for="message" />
-                    <x-textarea placeholder="Type your message" id="message" name="message" value="" />
-                    <x-input-error :messages="$errors->get('message')" class="mt-2" />
-                    <input type="hidden" name="ticket_id" value={{$ticket->id}}>
-                </div>
-                <div class="flex mt-2 mb-6">
-                    <x-primary-button class="">
-                        Send
-                    </x-primary-button>
-                </div>
-            </form>
-        </div>
-        @else
-        <div class="w-full sm:max-w-2xl mt-6">
-            <form class="mt-6" action="{{route('message.store', $ticket->id)}}" method="post">
-                @csrf
-                @method('post')
+                @else
                 <p class=" text-white text-lg font-bold">Send Message to Admin</p>
+                @endif
                 <div class="mt-4 ">
                     <x-input-label for="message" />
                     <x-textarea placeholder="Type your message" id="message" name="message" value="" />
@@ -122,7 +106,6 @@
                 </div>
             </form>
         </div>
-        @endif
         @endif
     </div>
 </x-app-layout>
