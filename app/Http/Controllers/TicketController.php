@@ -66,15 +66,14 @@ class TicketController extends Controller
         ->orderBy('messages.updated_at','asc')
         ->get();
 
-
-        // $ticketUserMessages = Message::where('ticket_id', $ticket->id)->where('user_id', $ticket->user->id)->get();
-        // $messageUserId = Message::where('user_id', $user->id)->where('ticket_id', $ticket->id)->pluck('user_id');
-        // $userEmail = User::whereIn('id', $messageUserId)->pluck('email');
-        // $adminId = User::whereIn('email', $user->admins)->pluck('id');
-        // $adminMessage = Message::where('user_id', $adminId[0])->where('ticket_id', $ticket->id)->get();
+        $statusChangedUserId = DB::table('users')
+        ->join('tickets', 'tickets.status_changed_by_id', '=', 'users.id')
+        ->select('users.name','tickets.updated_at')
+        ->where('tickets.id', $ticket->id)
+        ->first();
+        // dd($statusChangedUserId);
         
-        
-        return view('ticket.show', compact('ticket','getAllMessagesinTicket'));
+        return view('ticket.show', compact('ticket','getAllMessagesinTicket', 'statusChangedUserId'));
     }
 
     /**
@@ -97,11 +96,12 @@ class TicketController extends Controller
             $ticket->update(['status_changed_by_id' => auth()->user()->id]);
            $ticket->user->notify(new TicketUpdateNotification($ticket));
         }
-        if ($request->file('attachment')) {
-            Storage::disk('public')->delete($ticket->attachment);
+        if ($request->hasFile('attachment')) {
+            if($ticket->attachment && Storage::disk('public')->exists($ticket->attachment)){
+                Storage::disk('public')->delete($ticket->attachment);
+            }
             $this->storeAttachment($request, $ticket);
         }
-
         return redirect(route('ticket.show',$ticket->id));
     }
 
@@ -110,7 +110,7 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        $ticket->delete();
+        // $ticket->delete();
         return redirect(route('ticket.index'));
     }
 

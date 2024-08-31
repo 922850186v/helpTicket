@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('status')->default(TicketStatus::OPEN);
+            $table->boolean('is_deleted')->default(false);
             $table->string('attachment')->nullable();
             $table->string('user_message')->nullable();
             $table->string('admin_message')->nullable();

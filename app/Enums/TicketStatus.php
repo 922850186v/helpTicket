@@ -7,4 +7,5 @@ enum TicketStatus : string
     case OPEN = 'Open';
     case APPROVED = 'Approved';
     case REJECTED = 'Rejected';
+    case DELETED = 'Deleted';
 }

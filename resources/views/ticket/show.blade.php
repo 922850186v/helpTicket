@@ -9,6 +9,7 @@
         <div
             class="w-full sm:max-w-2xl mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
             <div class="table-responsive text-center">
+                @if ($ticket->status !== 'Deleted')                
                 <h1 class="text-white text-lg font-bold">{{$ticket->title}}</h1>
                 <table class="text-white table-auto w-full mt-3">
                     <thead>
@@ -32,18 +33,20 @@
                         </tr>
                     </tbody>
                 </table>
+                @endif
                 <div class="flex mt-6 justify-center">
                     @if ($ticket->status === 'Open')
                     <a href="{{route('ticket.edit', $ticket->id)}}">
                         <x-primary-button>Edit</x-primary-button>
                     </a>
                     <form class="ml-3 pb-3" action="{{route('ticket.destroy', $ticket->id)}}" method="post">
-                        @method('delete')
+                        @method('patch')
                         @csrf
+                        <input type="hidden" name="status" value="Deleted">
                         <x-primary-button>Delete</x-primary-button>
                     </form>
                     @else
-                    <p class="text-white">Ticket is Closed.</p>
+                    <p class="text-white text-sm">{{$ticket->status}} by <b>{{$statusChangedUserId->name}}</b> : {{$statusChangedUserId->updated_at}}</p>
                     @endif
                     @if (auth()->user()->isAdmin && $ticket->status === 'Open')
                     <form class="ml-3 pb-3" action="{{route('ticket.update', $ticket->id)}}" method="post">
