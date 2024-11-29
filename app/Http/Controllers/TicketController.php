@@ -55,25 +55,25 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ticket $ticket, Message $message)
+    public function show(User $user, Ticket $ticket, Message $message)
     {
         $user = auth()->user();
+        $statusChangedUserName = '';
 
-        $getAllMessagesinTicket = DB::table('users')
-        ->join('messages', 'messages.user_id', '=', 'users.id')
-        ->select('users.name','users.email', 'messages.message', 'messages.updated_at')
-        ->where('ticket_id', $ticket->id)
-        ->orderBy('messages.updated_at','asc')
+        $getAllMessagesinTicket = $ticket->messages()
+        ->with(['user:id,name'])
+        ->orderBy('updated_at','asc')
         ->get();
 
-        $statusChangedUserId = DB::table('users')
-        ->join('tickets', 'tickets.status_changed_by_id', '=', 'users.id')
-        ->select('users.name','tickets.updated_at')
-        ->where('tickets.id', $ticket->id)
-        ->first();
-        // dd($statusChangedUserId);
+        if($ticket->status_changed_by_id){
+            $statusChangedUserName = $ticket->statusChangedUser()
+            ->select('users.name')
+            ->first()->name;
+        }
+
+        $ticketUpdatedAt = $ticket->updated_at;        
         
-        return view('ticket.show', compact('ticket','getAllMessagesinTicket', 'statusChangedUserId'));
+        return view('ticket.show', compact('ticket','getAllMessagesinTicket', 'statusChangedUserName','ticketUpdatedAt'));
     }
 
     /**

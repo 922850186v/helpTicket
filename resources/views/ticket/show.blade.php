@@ -2,7 +2,7 @@
     <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
         <div class="flex justify-between w-full sm:max-w-2xl mt-6">
             <h1 class="text-white text-lg font-bold">Ticket Details</h1>
-            <a class="mx-3 pb-3" href="{{route('ticket.index', $ticket->id)}}">
+            <a class="mx-3 pb-3" href="{{route('ticket.index')}}">
                 <x-primary-button>Back Home</x-primary-button>
             </a>
         </div>
@@ -46,7 +46,7 @@
                         <x-primary-button>Delete</x-primary-button>
                     </form>
                     @else
-                    <p class="text-white text-sm">{{$ticket->status}} by <b>{{$statusChangedUserId->name}}</b> : {{$statusChangedUserId->updated_at}}</p>
+                    <p class="text-white text-sm">{{$ticket->status}} by <b>{{$statusChangedUserName}}</b> : {{$ticketUpdatedAt}}</p>
                     @endif
                     @if (auth()->user()->isAdmin && $ticket->status === 'Open')
                     <form class="ml-3 pb-3" action="{{route('ticket.update', $ticket->id)}}" method="post">
@@ -73,7 +73,7 @@
                 <table class="w-full">
                     @foreach ($getAllMessagesinTicket as $message)
                     <tr class="">
-                        <td class="">{{Str::before($message->name,' ')}} :</td>
+                        <td class="">{{Str::before($message->user->name,' ')}} :</td>
                         <td class=""><b>{{$message->message}}</b></td>
                         <td class="text-sm">{{$message->updated_at}}</td>
                     </tr>

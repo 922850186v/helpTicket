@@ -11,7 +11,7 @@
             </a>
         </div>
         <div
-            class="text-white text-center w-full sm:max-w-2xl mt-6 p-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            class="text-white text-center w-full sm:max-w-2xl my-6 p-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
             <div class="table-responsive">
                 @if (count($tickets))
                 <table class="table-auto w-full">

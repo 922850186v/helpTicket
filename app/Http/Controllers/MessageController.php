@@ -32,7 +32,7 @@ class MessageController extends Controller
     public function store(StoreMessageRequest $request)
     {
         // dd($request->ticket_id);
-        $message = Message::create([
+        Message::create([
             'user_id' => auth()->user()->id,
             'ticket_id'=>$request->ticket_id,
             'message'=>$request->message
@@ -50,8 +50,9 @@ class MessageController extends Controller
     {
         // Assuming you want to retrieve the ticket associated with this message
         $ticket = Ticket::findOrFail($message->ticket_id);
-
-        return view('ticket.show', compact('message', 'ticket'));
+        $messageUser = $message->user();
+        
+        return view('ticket.show', compact('message', 'ticket','messageUser'));
     }
 
     /**
