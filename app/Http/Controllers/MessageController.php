@@ -48,7 +48,7 @@ class MessageController extends Controller
      */
     public function show(Message $message)
     {
-        // Assuming you want to retrieve the ticket associated with this message
+        // Assuming to retrieve the ticket associated with this message
         $ticket = Ticket::findOrFail($message->ticket_id);
         $messageUser = $message->user();
         
