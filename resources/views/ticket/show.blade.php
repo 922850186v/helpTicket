@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
         <div class="flex justify-between w-full sm:max-w-2xl mt-6">
-            <h1 class="text-white text-lg font-bold">Ticket Details</h1>
+            <h1 class="text-gray-700 text-lg font-bold">Ticket Details</h1>
             <a class="mx-3 pb-3" href="{{route('ticket.index')}}">
                 <x-primary-button>Back Home</x-primary-button>
             </a>
@@ -10,8 +10,8 @@
             class="w-full sm:max-w-2xl mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
             <div class="table-responsive text-center">
                 @if ($ticket->status !== 'Deleted')                
-                <h1 class="text-white text-lg font-bold">{{$ticket->title}}</h1>
-                <table class="text-white table-auto w-full mt-3">
+                <h1 class="text-gray-700 text-lg font-bold">{{$ticket->title}}</h1>
+                <table class="text-gray-700 table-auto w-full mt-3">
                     <thead>
                         <th>Id</th>
                         <th>Description</th>
@@ -46,7 +46,7 @@
                         <x-primary-button>Delete</x-primary-button>
                     </form>
                     @else
-                    <p class="text-white text-sm">{{$ticket->status}} by <b>{{$statusChangedUserName}}</b> : {{$ticketUpdatedAt}}</p>
+                    <p class="text-gray-700 text-sm">{{$ticket->status}} by <b>{{$statusChangedUserName}}</b> : {{$ticketUpdatedAt}}</p>
                     @endif
                     @if (auth()->user()->isAdmin && $ticket->status === 'Open')
                     <form class="ml-3 pb-3" action="{{route('ticket.update', $ticket->id)}}" method="post">
@@ -67,9 +67,9 @@
         </div>
         <div class="w-full sm:max-w-2xl mt-6">
             @if ($getAllMessagesinTicket->count()>0)
-            <h1 class="text-white text-lg font-bold">Messages</h1>
+            <h1 class="text-gray-700 text-lg font-bold">Messages</h1>
             <div
-                class="text-white w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
+                class="text-gray-700 w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg justify-center flex-col">
                 <table class="w-full">
                     @foreach ($getAllMessagesinTicket as $message)
                     <tr class="">
@@ -82,7 +82,7 @@
             </div>
             @elseif($ticket->status !== 'Open')
             <div
-                class="text-white w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center flex-col">
+                class="text-gray-700 w-full sm:max-w-2xl mt-2 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg text-center flex-col">
                 <p>No Messages.</p>
             </div>
             @endif
@@ -92,9 +92,9 @@
                 @csrf
                 @method('post')
                 @if (auth()->user()->isAdmin)
-                <p class=" text-white text-lg font-bold">Send Message to User</p>
+                <p class=" text-gray-700 text-lg font-bold">Send Message to User</p>
                 @else
-                <p class=" text-white text-lg font-bold">Send Message to Admin</p>
+                <p class=" text-gray-700 text-lg font-bold">Send Message to Admin</p>
                 @endif
                 <div class="mt-4 ">
                     <x-input-label for="message" />

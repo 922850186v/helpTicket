@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
         <div class="flex justify-between w-full sm:max-w-xl mt-6">
-            <h1 class="text-white text-lg font-bold m-6">Create the Support Ticket</h1>
+            <h1 class="text-gray-700 text-lg font-bold m-6">Create the Support Ticket</h1>
             <a class="mx-3 pb-3" href="{{route('ticket.index')}}">
                 <x-primary-button>Back Home</x-primary-button>
             </a>

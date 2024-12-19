@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
         <div class="flex justify-between w-full sm:max-w-xl mt-6">
-            <h1 class="text-white text-lg font-bold ">Update Support Ticket</h1>
+            <h1 class="text-gray-700 text-lg font-bold ">Update Support Ticket</h1>
             <a class="" href="{{route('ticket.show', $ticket->id)}}">
                 <x-primary-button class="my-3">
                     Back
@@ -26,7 +26,7 @@
                 </div>
                 <div class="mt-4 ">
                     @if( $ticket->attachment)
-                    <a class="pt-1 text-white" href="{{'/storage/' . $ticket->attachment}}">Current Attachment</a>
+                    <a class="pt-1 text-gray-700" href="{{'/storage/' . $ticket->attachment}}">Current Attachment</a>
                     @endif
                     <x-input-label for="title" :value="__('Attachment')" />
                     <x-file-input id="attachment" type="file" name="attachment"></x-file-input>

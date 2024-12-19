@@ -9,7 +9,7 @@
     @else
     <ul>
         @foreach ($messages as $message)
-        <li>{{ $message->content }}</li> <!-- Adjust based on your actual message structure -->
+        <li>{{ $message->content }}</li> 
         @endforeach
     </ul>
     @endif

@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6">
+    <div class="flex flex-col sm:justify-center items-center mt-6 pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900 m-6 text-gray-700">
         <div class="flex justify-between w-full sm:max-w-xl mt-6">
             @if (auth()->user()->isAdmin)
-            <h1 class="text-white text-lg font-bold">Review Support Tickets</h1>
+            <h1 class="text-gray-700 text-lg font-bold">Review Support Tickets</h1>
             @else
-            <h1 class="text-white text-lg font-bold">Your Support Tickets</h1>
+            <h1 class="text-gray-700 text-lg font-bold">Your Support Tickets</h1>
             @endif
             <a class="mx-3 pb-3" href="{{route('ticket.create')}}">
                 <x-primary-button>Create</x-primary-button>
             </a>
         </div>
         <div
-            class="text-white text-center w-full sm:max-w-2xl mb-6 p-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            class="text-gray-700 text-center w-full sm:max-w-2xl mb-6 p-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
             <div class="table-responsive">
                 @if (count($tickets))
                 <table class="table-auto w-full">
@@ -43,7 +43,7 @@
                     </tbody>
                 </table>
                 @else
-                <p colspan="3" class="px-4 py-2 text-center text-white">You don't have any support ticket
+                <p colspan="3" class="px-4 py-2 text-center text-gray-700">You don't have any support ticket
                     yet.</p>
                 @endif
             </div>
